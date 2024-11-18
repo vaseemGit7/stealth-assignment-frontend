@@ -8,12 +8,19 @@ const getProducts = (pageNumber, pageSize) => {
     pageSize: pageSize,
   };
 
-  return productsApi
-    .get("/products", { params })
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => console.log(err));
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      productsApi
+        .get("/products", { params })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          resolve(null);
+        });
+    }, 2000);
+  });
 };
 
 export default getProducts;
