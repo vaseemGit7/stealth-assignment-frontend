@@ -2,10 +2,10 @@ import axios from "axios";
 
 const productsApi = axios.create({ baseURL: "http://localhost:5000" });
 
-const getProducts = () => {
+const getProducts = (pageNumber, pageSize) => {
   const params = {
-    pageNumber: 1,
-    pageSize: 15,
+    pageNumber: pageNumber,
+    pageSize: pageSize,
   };
 
   return productsApi
