@@ -1,4 +1,10 @@
+import ProductsPage from "./components/ProductsPage";
+
 const App = () => {
-  return <> </>;
+  return (
+    <>
+      <ProductsPage />
+    </>
+  );
 };
 export default App;
