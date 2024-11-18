@@ -2,6 +2,7 @@ import getProducts from "../api/API.js";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ProductLoading from "./ProductLoading.jsx";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -41,7 +42,12 @@ const ProductsPage = () => {
         dataLength={products.length}
         next={fetchMoreProducts}
         hasMore={hasMore}
-        loader={<h1>Loading...</h1>}
+        loader={<ProductLoading />}
+        endMessage={
+          <p className="text-center font-semibold text-neutral-600 text-base p-4">
+            You found the end! Nothing more to see here... or is there?
+          </p>
+        }
       >
         <div
           style={{
