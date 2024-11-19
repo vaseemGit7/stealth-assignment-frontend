@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
+import FilterOptions from "./FilterOptions";
 
 const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
   const resultData = useSelector((state) => state.dataReducer);
@@ -35,7 +36,7 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
           >
             Close
           </button>
-          <p className="m-auto">Test</p>
+          <FilterOptions facetName={"Category"} facet={categoriesFacet} />
         </dialog>
       )}
     </>
