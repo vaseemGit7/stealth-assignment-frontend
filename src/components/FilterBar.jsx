@@ -1,18 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterOptions from "./FilterOptions";
+import { setParam } from "../actions/filterActions";
 
 const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
   const resultData = useSelector((state) => state.dataReducer);
   const dialogModal = useRef();
+  const dispatch = useDispatch();
+  const paramsData = useSelector((state) => state.paramsReducer);
+  const ratingParam = paramsData?.ratings;
 
   const [toggleFacet, setToggleFacet] = useState({
     Category: false,
     Brand: false,
-    Rating: false,
     Size: false,
     Color: false,
   });
+
+  const handleRating = (rating) => {
+    dispatch(setParam("ratings", rating));
+  };
 
   const getFacet = (facetCode) => {
     return resultData?.facets?.find((item) => item.code === facetCode);
@@ -31,7 +38,6 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
 
   const categoriesFacet = getFacet("categories");
   const brandsFacet = getFacet("brands");
-  const ratingsFacet = getFacet("ratings");
   const sizesFacet = getFacet("sizes");
   const colorsFacet = getFacet("colorWithNames");
 
@@ -48,12 +54,38 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
       {filterBarToggle && (
         <dialog
           ref={dialogModal}
-          className="left-[79%] h-full w-96 border-none outline outline-1 outline-neutral-200 rounded p-3"
+          className="p-3 ml-auto top-1/2 transform -translate-x-0 -translate-y-1/2  h-full w-96 border-none outline outline-1 outline-neutral-200 rounded-l-lg shadow-lg"
         >
           <div className="flex justify-between mb-5">
             <p className="text-2xl text-neutral-800 font-semibold">Filter</p>
             <button onClick={handleFilterBar}>X</button>
           </div>
+          <div className="flex flex-col mb-5">
+            <div className="flex mb-2 justify-between items-center">
+              <p className="font-medium text-lg">Rating</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="flex space-x-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    onClick={() => handleRating(star)}
+                    className={`text-3xl ${
+                      star <= ratingParam ? "text-yellow-400" : "text-gray-400"
+                    }`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+              {ratingParam > 0 && (
+                <p className="mt-2 text-base text-neutral-800 font-medium">
+                  {ratingParam} & above
+                </p>
+              )}
+            </div>
+          </div>
+
           {shouldShowFacet(categoriesFacet) && (
             <FilterOptions
               facetName={"Category"}
@@ -66,14 +98,6 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
             <FilterOptions
               facetName={"Brand"}
               facet={brandsFacet}
-              handleFacetToggle={handleFacetToggle}
-              toggleFacet={toggleFacet}
-            />
-          )}
-          {shouldShowFacet(ratingsFacet) && (
-            <FilterOptions
-              facetName={"Rating"}
-              facet={ratingsFacet}
               handleFacetToggle={handleFacetToggle}
               toggleFacet={toggleFacet}
             />
