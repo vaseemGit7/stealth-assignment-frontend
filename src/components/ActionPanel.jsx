@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setParam } from "../actions/filterActions";
 import FilterBar from "./FilterBar.jsx";
+import { IonIcon } from "@ionic/react";
+import { filterOutline, optionsOutline } from "ionicons/icons";
 
 const ActionPanel = () => {
   const [sortToggle, setSortToggle] = useState(false);
@@ -38,12 +40,18 @@ const ActionPanel = () => {
     <div className="flex flex-col mt-10 py-3 w-auto">
       <div className="flex justify-between">
         <div className="relative">
-          <button
-            className="px-2 py-1 font-semibold text-lg  text-neutral-700"
-            onClick={handleSortToggle}
-          >
-            Sort by
-          </button>
+          <div className="flex items-center">
+            <button
+              className="font-semibold text-lg  text-neutral-700"
+              onClick={handleSortToggle}
+            >
+              Sort by
+              <IonIcon
+                className="ml-2 text-xl text-neutral-700"
+                icon={filterOutline}
+              ></IonIcon>
+            </button>
+          </div>
           {sortToggle && (
             <div className="absolute z-auto top-8 w-52 p-2 bg-white outline outline-1 outline-neutral-200 flex flex-col gap-4 text-base text-neutral-800 rounded">
               <label className="flex items-center">
@@ -85,12 +93,18 @@ const ActionPanel = () => {
             </div>
           )}
         </div>
-        <button
-          className="ml-auto px-2 py-1 font-semibold text-lg  text-neutral-700"
-          onClick={handleFilterBar}
-        >
-          Filters
-        </button>
+        <div className="flex  items-center">
+          <button
+            className="ml-auto font-semibold text-lg items-center text-neutral-700"
+            onClick={handleFilterBar}
+          >
+            Filters
+            <IonIcon
+              className="ml-2 text-xl text-neutral-700"
+              icon={optionsOutline}
+            ></IonIcon>
+          </button>
+        </div>
       </div>
       <div className="flex gap-1">
         {Object.entries(paramsData).map(([facetCode, facetValues]) =>

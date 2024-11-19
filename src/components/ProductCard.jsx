@@ -1,3 +1,6 @@
+import { IonIcon } from "@ionic/react";
+import { star } from "ionicons/icons";
+
 const ProductCard = ({ product }) => {
   const color = product.color.split("_");
   console.log(color[0]);
@@ -12,6 +15,7 @@ const ProductCard = ({ product }) => {
             </p>
             <p className="text-sm font-medium text-neutral-700">
               {product.rating}
+              <IonIcon className="ml-1" icon={star}></IonIcon>
             </p>
           </div>
           <p className="text-sm mb-1 font-medium text-neutral-600">
