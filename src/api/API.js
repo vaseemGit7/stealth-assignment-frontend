@@ -48,7 +48,6 @@ const getProducts = (pageNumber, pageSize, paramsState) => {
       productsApi
         .get(`/products${optionalParams}`, { params })
         .then((res) => {
-          console.log(params);
           resolve(res.data);
         })
         .catch((err) => {

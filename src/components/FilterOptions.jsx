@@ -21,8 +21,6 @@ const FilterOptions = ({
     dispatch(setParam(filter, updatedValues));
   };
 
-  console.log(paramsData);
-
   return (
     <div className="flex flex-col">
       <div

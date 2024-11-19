@@ -45,8 +45,6 @@ const ProductsPage = () => {
     setIndex((prevIndex) => prevIndex + 1);
   };
 
-  console.log("Products: ", products);
-
   return (
     <div className="max-w-[90rem]  mx-auto ">
       <ActionPanel />
