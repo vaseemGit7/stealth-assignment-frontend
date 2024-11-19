@@ -4,6 +4,7 @@ import FilterOptions from "./FilterOptions";
 import { setParam } from "../actions/filterActions";
 import { IonIcon } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
+import PriceSlider from "./PriceSlider";
 
 const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
   const resultData = useSelector((state) => state.dataReducer);
@@ -18,6 +19,10 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
     Size: false,
     Color: false,
   });
+
+  const handleRangeChange = (values) => {
+    dispatch(setParam("priceRange", values));
+  };
 
   const handleRating = (rating) => {
     dispatch(setParam("ratings", rating));
@@ -64,10 +69,12 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
               <IonIcon icon={closeOutline}> </IonIcon>
             </button>
           </div>
-          <div className="flex flex-col mb-5">
-            <div className="flex  justify-between items-center">
-              <p className="font-medium text-lg">Rating</p>
+          <div className="flex flex-col mb-8">
+            <div className="mb-5">
+              <p className="font-medium text-lg mb-2">Price Range</p>
+              <PriceSlider min={0} max={1000} onChange={handleRangeChange} />
             </div>
+            <p className="font-medium text-lg">Rating</p>
             <div className="flex flex-col items-center">
               <div className="flex space-x-2">
                 {[1, 2, 3, 4, 5].map((star) => (
