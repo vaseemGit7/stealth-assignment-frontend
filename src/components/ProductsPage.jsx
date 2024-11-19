@@ -1,19 +1,23 @@
 import getProducts from "../api/API.js";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import ProductCard from "./ProductCard.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProductLoading from "./ProductLoading.jsx";
 import FilterBar from "./FilterBar.jsx";
+import setResultData from "../actions/dataActions.jsx";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [index, setIndex] = useState(1);
   const [filterBarToggle, setFilterBarToggle] = useState(false);
+  const dispatch = useDispatch();
 
   const fetchProducts = async () => {
     try {
       const data = await getProducts(index, 12);
+      dispatch(setResultData(data));
       setProducts(data.result);
     } catch (error) {
       console.log(error);
@@ -27,6 +31,7 @@ const ProductsPage = () => {
   const fetchMoreProducts = async () => {
     try {
       const data = await getProducts(index, 12);
+      dispatch(setResultData(data));
       setProducts((prevData) => [...prevData, ...data.result]);
       data.result.length > 0 ? setHasMore(true) : setHasMore(false);
     } catch (error) {
