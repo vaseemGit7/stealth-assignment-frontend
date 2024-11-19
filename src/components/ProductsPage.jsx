@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ProductLoading from "./ProductLoading.jsx";
 import FilterBar from "./FilterBar.jsx";
 import setResultData from "../actions/dataActions.jsx";
+import ActionPanel from "./ActionPanl.jsx";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -50,6 +51,7 @@ const ProductsPage = () => {
 
   return (
     <div className="max-w-[90rem]  mx-auto ">
+      <ActionPanel />
       <button
         className="ml-auto px-2 py-1 bg-neutral-800 font-semibold text-base rounded text-neutral-50"
         onClick={handleFilterBar}
