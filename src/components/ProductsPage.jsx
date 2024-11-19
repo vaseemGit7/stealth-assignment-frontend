@@ -1,5 +1,5 @@
 import getProducts from "../api/API.js";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "./ProductCard.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -10,17 +10,21 @@ import ActionPanel from "./ActionPanel.jsx";
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [index, setIndex] = useState(1);
   const paramsState = useSelector((state) => state.paramsReducer);
   const dispatch = useDispatch();
 
   const fetchProducts = async () => {
     try {
+      setLoading(true);
       const data = await getProducts(index, 12, paramsState);
       dispatch(setResultData(data));
       setProducts(data.result);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,31 +50,35 @@ const ProductsPage = () => {
   return (
     <div className="max-w-[90rem]  mx-auto ">
       <ActionPanel />
-      <InfiniteScroll
-        dataLength={products.length}
-        next={fetchMoreProducts}
-        hasMore={hasMore}
-        loader={<ProductLoading />}
-        endMessage={
-          <p className="text-center font-semibold text-neutral-600 text-base p-4">
-            You found the end! Nothing more to see here... or is there?
-          </p>
-        }
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "10px",
-          }}
-          className="p-1"
+      {isLoading ? (
+        <ProductLoading />
+      ) : (
+        <InfiniteScroll
+          dataLength={products.length}
+          next={fetchMoreProducts}
+          hasMore={hasMore}
+          loader={<ProductLoading />}
+          endMessage={
+            <p className="text-center font-semibold text-neutral-600 text-base p-4">
+              You found the end! Nothing more to see here... or is there?
+            </p>
+          }
         >
-          {products &&
-            products.map((product) => (
-              <ProductCard key={product.code} product={product} />
-            ))}
-        </div>
-      </InfiniteScroll>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "10px",
+            }}
+            className="p-1"
+          >
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product.code} product={product} />
+              ))}
+          </div>
+        </InfiniteScroll>
+      )}
     </div>
   );
 };
