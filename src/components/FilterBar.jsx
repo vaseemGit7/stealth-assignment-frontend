@@ -12,6 +12,8 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
   const dispatch = useDispatch();
   const paramsData = useSelector((state) => state.paramsReducer);
   const ratingParam = paramsData?.ratings;
+  const minPrice = resultData?.others?.minPrice;
+  const maxPrice = resultData?.other?.maxPrice;
 
   const [toggleFacet, setToggleFacet] = useState({
     Category: false,
@@ -64,6 +66,9 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
           className="p-3 ml-auto top-1/2 transform -translate-x-0 -translate-y-1/2  h-full w-96 border-none outline outline-1 outline-neutral-200 rounded-l-lg shadow-lg"
         >
           <div className="flex justify-between mb-5 items-center">
+            <p className="text-base text-neutral-600 font-medium">
+              {`${resultData?.others?.totalProducts}`} Results
+            </p>
             <p className="text-2xl text-neutral-800 font-semibold">Filter</p>
             <button className="text-2xl" onClick={handleFilterBar}>
               <IonIcon icon={closeOutline}> </IonIcon>
@@ -72,7 +77,11 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
           <div className="flex flex-col mb-8">
             <div className="mb-5">
               <p className="font-medium text-lg mb-2">Price Range</p>
-              <PriceSlider min={0} max={1000} onChange={handleRangeChange} />
+              <PriceSlider
+                min={minPrice}
+                max={maxPrice}
+                onChange={handleRangeChange}
+              />
             </div>
             <p className="font-medium text-lg">Rating</p>
             <div className="flex flex-col items-center">

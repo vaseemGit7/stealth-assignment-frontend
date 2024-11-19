@@ -8,6 +8,7 @@ import { filterOutline, optionsOutline } from "ionicons/icons";
 const ActionPanel = () => {
   const [sortToggle, setSortToggle] = useState(false);
   const [filterBarToggle, setFilterBarToggle] = useState(false);
+  const resultData = useSelector((state) => state.dataReducer);
   const paramsData = useSelector((state) => state.paramsReducer);
   const dispatch = useDispatch();
 
@@ -106,36 +107,41 @@ const ActionPanel = () => {
           </button>
         </div>
       </div>
-      <div className="flex gap-1">
-        {Object.entries(paramsData).map(([facetCode, facetValues]) =>
-          facetCode !== "sortBy" &&
-          facetCode === "ratings" &&
-          facetValues > 0 ? (
-            <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
-              <p className="text-neutral-600 font-medium text-base">Rating</p>
-              <button
-                className="p-1"
-                onClick={() => handleRating(facetCode, 0)}
-              >
-                X
-              </button>
-            </div>
-          ) : Array.isArray(facetValues) ? (
-            facetValues?.map((value) => (
+      <div>
+        <div className="flex gap-1">
+          {Object.entries(paramsData).map(([facetCode, facetValues]) =>
+            facetCode !== "sortBy" &&
+            facetCode === "priceRange" &&
+            facetValues > 0 ? (
               <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
-                <p className="text-neutral-600 font-medium text-base">
-                  {value}
-                </p>
+                <p className="text-neutral-600 font-medium text-base">Rating</p>
                 <button
                   className="p-1"
-                  onClick={() => handleChange(facetCode, value)}
+                  onClick={() => handleRating(facetCode, 0)}
                 >
                   X
                 </button>
               </div>
-            ))
-          ) : null
-        )}
+            ) : Array.isArray(facetValues) ? (
+              facetValues?.map((value) => (
+                <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
+                  <p className="text-neutral-600 font-medium text-base">
+                    {value}
+                  </p>
+                  <button
+                    className="p-1"
+                    onClick={() => handleChange(facetCode, value)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))
+            ) : null
+          )}
+        </div>
+        <p className="float-right text-base text-neutral-600 font-medium">
+          {`${resultData?.others?.totalProducts}`} Results
+        </p>
       </div>
       <FilterBar
         filterBarToggle={filterBarToggle}
