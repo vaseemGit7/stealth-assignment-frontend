@@ -1,4 +1,21 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setParam } from "../actions/filterActions";
+
 const FilterOptions = ({ facetName, facet }) => {
+  const paramsData = useSelector((state) => state.paramsReducer);
+  const dispatch = useDispatch();
+
+  const handleChange = (filter, value) => {
+    const currentValues = paramsData[filter] || [];
+    const updatedValues = currentValues.includes(value)
+      ? currentValues.filter((val) => val !== value)
+      : [...currentValues, value];
+
+    dispatch(setParam(filter, updatedValues));
+  };
+
+  console.log(paramsData);
+
   return (
     <div className="flex flex-col gap-3">
       <p className="font-medium text-base">{facetName}</p>
@@ -15,6 +32,11 @@ const FilterOptions = ({ facetName, facet }) => {
                     type="checkbox"
                     className="h-4 w-4 rounded-sm accent-neutral-800"
                     value={option.code}
+                    checked={
+                      Array.isArray(paramsData[facet.code]) &&
+                      paramsData[facet.code].includes(option.code)
+                    }
+                    onChange={() => handleChange(`${facet.code}`, option.code)}
                   />
                   {option.code}
                 </label>
