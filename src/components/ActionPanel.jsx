@@ -21,6 +21,10 @@ const ActionPanel = () => {
     dispatch(setParam(filter, e.target.value));
   };
 
+  const handleRating = (filter, value) => {
+    dispatch(setParam(filter, value));
+  };
+
   const handleChange = (filter, value) => {
     const currentValues = paramsData[filter] || [];
     const updatedValues = currentValues.includes(value)
@@ -31,15 +35,18 @@ const ActionPanel = () => {
   };
 
   return (
-    <div className="flex flex-col mt-10 py-3 w-auto border-2 border-neutral-800">
+    <div className="flex flex-col mt-10 py-3 w-auto">
       <div className="flex justify-between">
         <div className="relative">
-          <button className="outline outline-2" onClick={handleSortToggle}>
+          <button
+            className="px-2 py-1 font-semibold text-lg  text-neutral-700"
+            onClick={handleSortToggle}
+          >
             Sort by
           </button>
           {sortToggle && (
-            <div className="absolute z-auto top-6 p-2 bg-neutral-50 flex flex-col gap-2 text-base">
-              <label>
+            <div className="absolute z-auto top-8 w-52 p-2 bg-white outline outline-1 outline-neutral-200 flex flex-col gap-4 text-base text-neutral-800 rounded">
+              <label className="flex items-center">
                 <input
                   className="mr-2 h-4 w-4"
                   type="radio"
@@ -51,7 +58,7 @@ const ActionPanel = () => {
                 />
                 <span>Recommended</span>
               </label>
-              <label>
+              <label className="flex items-center">
                 <input
                   className="mr-2 h-4 w-4"
                   type="radio"
@@ -63,7 +70,7 @@ const ActionPanel = () => {
                 />
                 <span>Low to High</span>
               </label>
-              <label>
+              <label className="flex items-center">
                 <input
                   className="mr-2 h-4 w-4"
                   type="radio"
@@ -79,24 +86,41 @@ const ActionPanel = () => {
           )}
         </div>
         <button
-          className="ml-auto px-2 py-1 bg-neutral-800 font-semibold text-base rounded text-neutral-50"
+          className="ml-auto px-2 py-1 font-semibold text-lg  text-neutral-700"
           onClick={handleFilterBar}
         >
-          FILTERS
+          Filters
         </button>
       </div>
       <div className="flex gap-1">
-        {Object.entries(paramsData).map(
-          ([facetCode, facetValues]) =>
-            facetCode !== "sortBy" &&
-            facetValues.map((value) => (
-              <div className="flex gap-1 p-2 outline-1 outline-neutral-700">
-                <p>{value}</p>
-                <button onClick={() => handleChange(facetCode, value)}>
+        {Object.entries(paramsData).map(([facetCode, facetValues]) =>
+          facetCode !== "sortBy" &&
+          facetCode === "ratings" &&
+          facetValues > 0 ? (
+            <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
+              <p className="text-neutral-600 font-medium text-base">Rating</p>
+              <button
+                className="p-1"
+                onClick={() => handleRating(facetCode, 0)}
+              >
+                X
+              </button>
+            </div>
+          ) : Array.isArray(facetValues) ? (
+            facetValues?.map((value) => (
+              <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
+                <p className="text-neutral-600 font-medium text-base">
+                  {value}
+                </p>
+                <button
+                  className="p-1"
+                  onClick={() => handleChange(facetCode, value)}
+                >
                   X
                 </button>
               </div>
             ))
+          ) : null
         )}
       </div>
       <FilterBar
