@@ -1,7 +1,18 @@
 import { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
+  const resultData = useSelector((state) => state.dataReducer);
   const dialogModal = useRef();
+
+  console.log(resultData);
+
+  const getFacet = (facetCode) => {
+    return resultData?.facets?.find((item) => item.code === facetCode);
+  };
+
+  const categoriesFacet = getFacet("categories");
+  console.log(categoriesFacet);
 
   useEffect(() => {
     if (filterBarToggle) {
@@ -10,6 +21,7 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
       dialogModal?.current?.close();
     }
   }, [filterBarToggle]);
+
   return (
     <>
       {filterBarToggle && (
