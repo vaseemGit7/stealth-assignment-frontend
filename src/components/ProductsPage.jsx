@@ -4,15 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "./ProductCard.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProductLoading from "./ProductLoading.jsx";
-import FilterBar from "./FilterBar.jsx";
 import setResultData from "../actions/dataActions.jsx";
-import ActionPanel from "./ActionPanl.jsx";
+import ActionPanel from "./ActionPanel.jsx";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [index, setIndex] = useState(1);
-  const [filterBarToggle, setFilterBarToggle] = useState(false);
   const paramsState = useSelector((state) => state.paramsReducer);
   const dispatch = useDispatch();
 
@@ -43,21 +41,11 @@ const ProductsPage = () => {
     setIndex((prevIndex) => prevIndex + 1);
   };
 
-  const handleFilterBar = () => {
-    setFilterBarToggle((prevState) => !prevState);
-  };
-
   console.log("Products: ", products);
 
   return (
     <div className="max-w-[90rem]  mx-auto ">
       <ActionPanel />
-      <button
-        className="ml-auto px-2 py-1 bg-neutral-800 font-semibold text-base rounded text-neutral-50"
-        onClick={handleFilterBar}
-      >
-        FILTERS
-      </button>
       <InfiniteScroll
         dataLength={products.length}
         next={fetchMoreProducts}
@@ -83,10 +71,6 @@ const ProductsPage = () => {
             ))}
         </div>
       </InfiniteScroll>
-      <FilterBar
-        filterBarToggle={filterBarToggle}
-        handleFilterBar={handleFilterBar}
-      />
     </div>
   );
 };

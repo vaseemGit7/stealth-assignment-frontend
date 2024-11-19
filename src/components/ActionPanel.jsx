@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setParam } from "../actions/filterActions";
+import FilterBar from "./FilterBar.jsx";
 
 const ActionPanel = () => {
   const [sortToggle, setSortToggle] = useState(false);
+  const [filterBarToggle, setFilterBarToggle] = useState(false);
   const paramsState = useSelector((state) => state.paramsReducer);
   const dispatch = useDispatch();
+
+  const handleFilterBar = () => {
+    setFilterBarToggle((prevState) => !prevState);
+  };
 
   const handleChange = (filter, e) => {
     dispatch(setParam(filter, e.target.value));
@@ -16,7 +22,7 @@ const ActionPanel = () => {
   };
 
   return (
-    <div className="mt-10 py-3 w-auto border-2 border-neutral-800">
+    <div className="flex justify-between mt-10 py-3 w-auto border-2 border-neutral-800">
       <div className="relative">
         <button className="outline outline-2" onClick={handleSortToggle}>
           Sort by
@@ -62,6 +68,16 @@ const ActionPanel = () => {
           </div>
         )}
       </div>
+      <button
+        className="ml-auto px-2 py-1 bg-neutral-800 font-semibold text-base rounded text-neutral-50"
+        onClick={handleFilterBar}
+      >
+        FILTERS
+      </button>
+      <FilterBar
+        filterBarToggle={filterBarToggle}
+        handleFilterBar={handleFilterBar}
+      />
     </div>
   );
 };
