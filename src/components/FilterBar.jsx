@@ -13,7 +13,10 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
   };
 
   const categoriesFacet = getFacet("categories");
-  console.log(categoriesFacet);
+  const brandsFacet = getFacet("brands");
+  const ratingsFacet = getFacet("ratings");
+  const sizesFacet = getFacet("sizes");
+  const colorsFacet = getFacet("colorWithNames");
 
   useEffect(() => {
     if (filterBarToggle) {
@@ -37,6 +40,10 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
             Close
           </button>
           <FilterOptions facetName={"Category"} facet={categoriesFacet} />
+          <FilterOptions facetName={"Brand"} facet={brandsFacet} />
+          <FilterOptions facetName={"Rating"} facet={ratingsFacet} />
+          <FilterOptions facetName={"Size"} facet={sizesFacet} />
+          <FilterOptions facetName={"Color"} facet={colorsFacet} />
         </dialog>
       )}
     </>
