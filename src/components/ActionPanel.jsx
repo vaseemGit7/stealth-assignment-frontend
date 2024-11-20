@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setParam } from "../actions/filterActions";
 import FilterBar from "./FilterBar.jsx";
 import { IonIcon } from "@ionic/react";
-import { filterOutline, optionsOutline } from "ionicons/icons";
+import { filterOutline, optionsOutline, closeOutline } from "ionicons/icons";
 
 const ActionPanel = () => {
   const [sortToggle, setSortToggle] = useState(false);
@@ -108,31 +108,37 @@ const ActionPanel = () => {
         </div>
       </div>
       <div>
-        <div className="flex gap-1">
+        <div className="mt-2 flex gap-1">
           {Object.entries(paramsData).map(([facetCode, facetValues]) =>
             facetCode !== "sortBy" &&
-            facetCode === "priceRange" &&
+            facetCode === "ratings" &&
             facetValues > 0 ? (
-              <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
+              <div
+                key={facetValues}
+                className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200"
+              >
                 <p className="text-neutral-600 font-medium text-base">Rating</p>
                 <button
-                  className="p-1"
+                  className="p-1 flex justify-center items-center text-lg text-neutral-700"
                   onClick={() => handleRating(facetCode, 0)}
                 >
-                  X
+                  <IonIcon icon={closeOutline}> </IonIcon>
                 </button>
               </div>
             ) : Array.isArray(facetValues) ? (
               facetValues?.map((value) => (
-                <div className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200">
+                <div
+                  key={value}
+                  className="flex items-center gap-1 py-2 px-4 outline outline-1 bg-white rounded outline-neutral-200"
+                >
                   <p className="text-neutral-600 font-medium text-base">
                     {value}
                   </p>
                   <button
-                    className="p-1"
+                    className="p-1 flex justify-center items-center text-lg text-neutral-700"
                     onClick={() => handleChange(facetCode, value)}
                   >
-                    X
+                    <IonIcon icon={closeOutline}> </IonIcon>
                   </button>
                 </div>
               ))
