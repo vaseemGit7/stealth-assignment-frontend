@@ -13,7 +13,7 @@ const FilterBar = ({ filterBarToggle, handleFilterBar }) => {
   const paramsData = useSelector((state) => state.paramsReducer);
   const ratingParam = paramsData?.ratings;
   const minPrice = resultData?.others?.minPrice;
-  const maxPrice = resultData?.other?.maxPrice;
+  const maxPrice = resultData?.others?.maxPrice;
 
   const [toggleFacet, setToggleFacet] = useState({
     Category: false,
